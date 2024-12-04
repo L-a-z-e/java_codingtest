@@ -2,7 +2,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
 
-public class Solution7 {
+public class Solution07 {
 
     /**
      * U,D,R,L <-> 위, 아래, 오른쪽, 왼쪽 1칸 이동
@@ -189,6 +189,9 @@ public class Solution7 {
 
         return result;
     }
+    // 이렇게 구현하니 너무 가독성이 떨어지는 것 같음 이전부터 같은 문제
+    // 간결하고 가독성 있는 코드를 생각하고 짜는 것이 중요할 듯
+
 
 
     // ❶ 좌표평면을 벗어나는지 체크하는 메소드

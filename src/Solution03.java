@@ -1,5 +1,9 @@
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
+import java.util.stream.IntStream;
 
 public class Solution03 {
     /**
@@ -18,8 +22,20 @@ public class Solution03 {
     // 2. 과정 1에서 구한 수를 새로운 배열에 저장하고 중복 제거
     // 3. 배열을 오름차순으로 정렬하고 반환
     public static void main(String[] args) {
-        int[] numbers = new int[]{2,1,3,4,1};
+//        int[] numbers = new int[]{2,1,3,4,1,1,3,4,5,10,20,32,77,81,1,1,3,4,5,10,20,32,77,81,2,1,3,4,1,1,3,4,5,10,20,32,77,81,1,1,3,4,5,10,20,32,77,81,1,3,29,23,88,4,2,64,23,83,72,77,81,2,1,3,4,1,1,3,4,5,10,20,32,77,81,1,1,3,4,5,10,20,32,77,81,1,3,29,23,88,4,2,64,23,83,72};
+        Random random = new Random();
+        int[] numbers = IntStream.range(0, 1000).map(i -> random.nextInt(101)).toArray();
+        long start = System.currentTimeMillis();
         System.out.println(Arrays.toString(solution(numbers)));
+        long end = System.currentTimeMillis();
+        System.out.println(end - start);
+
+        start = System.currentTimeMillis();
+        Set<Integer> sums = new HashSet<>();
+        combine(numbers, 2, 0, new int[2], 0, sums);
+        System.out.println(sums);
+        end = System.currentTimeMillis();
+        System.out.println(end - start);
     }
 
     public static int[] solution(int[] numbers) {
@@ -36,5 +52,23 @@ public class Solution03 {
 
         // ❹ 해쉬셋의 값을 오름차순 정렬하고 int[] 형태의 배열로 변환하여 반환
         return set.stream().sorted().mapToInt(Integer::intValue).toArray();
+    }
+
+    public static void combine(int[] arr, int r, int start, int[] result, int depth, Set<Integer> sums) {
+
+        if (depth == r) {
+           int sum = 0;
+           for (int value : result) {
+               sum += value;
+           }
+           sums.add(sum);
+           return;
+        }
+
+        for (int i = start; i < arr.length; i++) {
+            result[depth] = arr[i];
+            combine(arr, r, i+1, result, depth + 1, sums);
+        }
+
     }
 }

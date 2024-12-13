@@ -24,4 +24,10 @@ public class Solution02 {
         Arrays.sort(result, Collections.reverseOrder());                                  // ❷ 내림차순 정렬
         return Arrays.stream(result).mapToInt(Integer::intValue).toArray();  // int형 배열로 변경 후 반환
     }
+
+    private static int[] solution2(int[] arr) {
+        Integer[] result = Arrays.stream(arr).boxed().distinct().toArray(Integer[]::new);
+        Arrays.sort(result, Collections.reverseOrder());
+        return Arrays.stream(result).mapToInt(Integer::intValue).toArray();
+    }
 }

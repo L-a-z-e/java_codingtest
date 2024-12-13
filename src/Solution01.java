@@ -33,4 +33,9 @@ public class Solution01 {
         return clone;
     }
 
+    public static int[] solution3(int[] arr) {
+        Arrays.sort(arr);
+        return arr;
+    }
+
 }

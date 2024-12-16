@@ -23,9 +23,11 @@ public class Solution04 {
 
         int[] answers = {1,2,3,4,5};
         System.out.println(Arrays.toString(solution(answers)));
+        System.out.println(Arrays.toString(solution2(answers)));
 
         int[] answers2 = {1,3,2,4,2};
         System.out.println(Arrays.toString(solution(answers2)));
+        System.out.println(Arrays.toString(solution2(answers2)));
 
     }
 
@@ -58,5 +60,48 @@ public class Solution04 {
         }
 
         return answer.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    /**
+     * 답을 얼마나 맞췄는지 answer 배열과 비교
+     * 맞춘 회수를 저장
+     * 오름차순으로 정렬 후 반환
+     * 시간복잡도 입력값이 10000 개 이므로 n^2 까지는 가능함
+     */
+    public static int[] solution2(int[] answer) {
+
+        ArrayList<Integer> result = new ArrayList<>();
+
+        int[][] patterns = {
+                {1, 2, 3, 4, 5},
+                {2, 1, 2, 3, 2, 4, 2, 5},
+                {3, 3, 1, 1, 2, 2, 4, 4, 5, 5}
+        };
+
+        int[] scores = new int[3];
+
+        for(int i = 0; i < answer.length; i++) {
+            for (int j = 0; j < patterns.length; j++) {
+                if (answer[i] == patterns[j][i % patterns[j].length]){
+                    scores[j]++;
+                }
+            }
+        }
+
+        int maxScore = -1;
+
+        for (int i = 0; i < scores.length; i++) {
+            if (scores[i] > maxScore) {
+                maxScore = scores[i];
+                result.clear();
+                result.add(i+1);
+            }
+            else if (scores[i] == maxScore) {
+                result.add(i+1);
+            }
+        }
+
+        return result.stream().mapToInt(Integer::intValue).toArray();
+
     }
 }

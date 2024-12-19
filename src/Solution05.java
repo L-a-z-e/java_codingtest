@@ -19,6 +19,27 @@ public class Solution05 {
         int[][] arr2 = new int[][] {{3, 3}, {3, 3}};
 
         System.out.println(Arrays.deepToString(solution2(arr1, arr2)));
+        System.out.println(Arrays.deepToString(solution2(arr1, arr2)));
+    }
+
+    // Σ k=1 ~ n aik * bkj 행렬곱 일반화한 수식
+    public static int[][] solution3(int[][] arr1, int[][] arr2) {
+        int row1 = arr1.length;
+        int col1 = arr1[0].length;
+        int row2 = arr2.length;
+        int col2 = arr2[0].length;
+
+        int[][] result = new int[row1][col2];
+
+        for (int i = 0; i < row1; i++) {
+            for (int j = 0; j < col2; j++) {
+                for (int k = 0; k < col1; k++) {
+                    result[i][j] += arr1[i][k] * arr2[k][j];
+                }
+            }
+        }
+
+        return result;
     }
 
     public static int[][] solution2(int[][] arr1, int[][] arr2) {

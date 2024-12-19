@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -40,6 +41,42 @@ public class Solution06 {
         System.out.println(Arrays.toString(solution2(N, stages)));
         end = System.currentTimeMillis();
         System.out.println(end - start);
+
+        System.out.println(Arrays.toString(solution3(N, stages)));
+    }
+
+    /**
+     * 1. 시간복잡도 최대? 20,0000 개 입력이 있으므로 O(N^2) 보다 낮게해야함
+     * 2. 실패율을 정의함
+     * 3. 각 스테이지별 실패율을 정렬 후 반환함
+     */
+    public static int[] solution3(int N, int[] stages) {
+        // 1. 시간복잡도 nlogn 까지 가능
+
+        // 2. 실패율 정의 : k번째 스테이지에 머무르고 있는 사람 / k번째 스테이지에 도달한 적이 있던 사용자
+        //    도달한 적이 있던 사용자를 구하는 방식? 이전스테이지들에 머무르고 있는 사람 수 제외
+        //    N + 1 번쨰 스테이지에 있는 사람은? 전체 스테이지 통과한 사람인데 N + 1 번째는 반환할 이유가 없음
+        //    1 스테이지를 1번에 저장하려면 배열을 뒤로 한 칸씩 미루는게 더 직관적
+
+        int reachedChallenger = stages.length;
+        int failedchallenger[] = new int[N + 2];
+
+        for (int stage : stages) {
+            failedchallenger[stage]++;
+        }
+
+        HashMap<Integer, Double> failRateMap = new HashMap<>();
+        for (int i = 1; i <= N; i++) {
+            if (failedchallenger[i] == 0)
+                failRateMap.put(i, 0.0);
+            else {
+                failRateMap.put(i, failedchallenger[i] / (double) reachedChallenger);
+                reachedChallenger -= failedchallenger[i];
+            }
+        }
+
+        // 각 스테이지별 실패율을 정렬 후 반환함
+        return failRateMap.entrySet().stream().sorted(Map.Entry.<Integer, Double>comparingByValue(Comparator.reverseOrder()).thenComparing(Map.Entry::getKey)).map(Map.Entry::getKey).mapToInt(Integer::intValue).toArray();
     }
 
     public static int[] solution2(int N, int[] stages) {
